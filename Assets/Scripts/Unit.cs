@@ -8,8 +8,12 @@ public class Unit : MonoBehaviour {
   private float rotateSpeed = 10f;
   private float stoppingDistance = 0.1f;
   private static readonly int IsWalking = Animator.StringToHash("isWalking");
+  
+  private void Awake() {
+    targetPosition = transform.position;
+  }
 
-  private void Move(Vector3 targetPosition) {
+  public void Move(Vector3 targetPosition) {
     this.targetPosition = targetPosition;
   }
 
@@ -33,10 +37,5 @@ public class Unit : MonoBehaviour {
       
       
     }
-
-    if (Input.GetMouseButtonDown(0) ) {
-      Move(MouseWorld.GetPosition());
-    };
-    
   }
 }

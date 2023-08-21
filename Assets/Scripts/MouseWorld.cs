@@ -7,6 +7,7 @@ public class MouseWorld : MonoBehaviour {
   private static MouseWorld instance;
   
   public static Vector3 GetPosition() {
+    // TODO: fix duplicated code on unit
     var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
     Physics.Raycast(ray, out var raycastHit, float.MaxValue, instance.mousePlaneMask); 
     return raycastHit.point;  

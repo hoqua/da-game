@@ -10,4 +10,8 @@ public struct GridPosition {
   public override string ToString() {
     return "x: " + x + ", z: " + z;
   }
+
+  public static bool isEquals(GridPosition a, GridPosition b) {
+    return a.x == b.x && a.z == b.z;
+  } 
 }

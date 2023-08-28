@@ -15,13 +15,14 @@ public class MovementSystem : MonoBehaviour {
   private Vector3? attackTraget;
   private Vector3? beforeAttackPosition;
   private bool attackState;
+  private bool moveState;
 
   public void Move(GridPosition targetGridPosition) {
     moveTarget = LevelGrid.Instance.GetWorldPosition(targetGridPosition);
   }
 
   public void MeleeAttack(GridPosition targetGridPosition) {
-    attackTraget = LevelGrid.Instance.GetWorldPosition(targetGridPosition);
+    attackTraget = LevelGrid.Instance.GetOccupant(targetGridPosition).transform.position;
   }
 
   private void Update() {
@@ -40,24 +41,34 @@ public class MovementSystem : MonoBehaviour {
     // Move to target
     var initialPosition = transform.position;
     var targetPosition = attackTraget.Value;
-    targetPosition.y = initialPosition.y; // Keep the character and target at the same height
+    var unitGridPosition = LevelGrid.Instance.GetPosition(targetPosition);
+    var attackable = LevelGrid.Instance.GetOccupant(unitGridPosition).GetComponent<AttackableComponent>();
+    
+    float maxEnemyDimension = Mathf.Max(attackable.GetSize().x, attackable.GetSize().z); // Consider the maximum dimension
 
+    // Calculate the attack offset based on the enemy size
+    float attackOffset = maxEnemyDimension;
+    
     unitAnimator.SetBool(isMoving, true);
 
-    while (Vector3.Distance(transform.position, targetPosition) > stoppingDistance) {
+    while (Vector3.Distance(transform.position , targetPosition) > attackOffset) {
       Move(targetPosition);
 
       yield return null;
     }
 
     unitAnimator.SetTrigger(attack);
-
-    Debug.Log(unitAnimator.GetCurrentAnimatorStateInfo(0).length);
+    
     // Wait for attack animation to finish
-    yield return new WaitForSeconds(unitAnimator.GetCurrentAnimatorStateInfo(0).length);
-
+    var halfOfAnimationTime = unitAnimator.GetCurrentAnimatorStateInfo(0).length / 2;
+    yield return new WaitForSeconds(halfOfAnimationTime);
+    
+    attackable.TakeDamage();
+    
+    yield return new WaitForSeconds(halfOfAnimationTime);
+    
     // Get back
-    while (Vector3.Distance(transform.position, initialPosition) > 0.1f) {
+    while (Vector3.Distance(transform.position, initialPosition) >= 0.01f) {
       Move(initialPosition);
 
       yield return null;
@@ -72,26 +83,29 @@ public class MovementSystem : MonoBehaviour {
   }
 
   private void TryMove() {
-    if (!moveTarget.HasValue) return;
+    if (!moveTarget.HasValue || moveState) return;
+    StartCoroutine(Movement());
+  }
 
-    // TODO: check MoveTowards
-    var distanceToTarget = Vector3.Distance(moveTarget.Value, unitTransform.position);
-
-    if (distanceToTarget > stoppingDistance) {
-      var moveDirection = (moveTarget.Value - unitTransform.position).normalized;
-      unitTransform.position += moveDirection * (moveSpeed * Time.deltaTime);
-      unitTransform.forward = Vector3.Lerp(unitTransform.forward, moveDirection, Time.deltaTime * rotateSpeed);
-
-      if (!unitAnimator.GetBool(isMoving)) {
-        unitAnimator.SetBool(isMoving, true);
-      }
+  private IEnumerator Movement() {
+    moveState = true;
+    var oldGridPosition =  LevelGrid.Instance.GetPosition(transform.position);
+    unitAnimator.SetBool(isMoving, true);
+    
+    while (Vector3.Distance(transform.position, moveTarget.Value) >= stoppingDistance) {
+      Move(moveTarget.Value);
+      
+      yield return null;
     }
-    else {
-      if (unitAnimator.GetBool(isMoving)) {
-        unitAnimator.SetBool(isMoving, false);
-        moveTarget = null;
-      }
-    }
+    
+    unitAnimator.SetBool(isMoving, false);
+    var newGridPosition = LevelGrid.Instance.GetPosition(transform.position);
+    LevelGrid.Instance.UnitMoved(this, oldGridPosition, newGridPosition);
+    
+    // Reset variables
+    moveState = false;
+    moveTarget = null;
+    yield return null;
   }
 
   private void Move(Vector3 targetPosition) {

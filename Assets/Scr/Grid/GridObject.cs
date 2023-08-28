@@ -1,35 +1,33 @@
 using System.Collections.Generic;
 using System.Linq;
+using JetBrains.Annotations;
+using UnityEngine;
 
 public class GridObject {
-  private GridPosition position;
-  private GridSystem gridSystem;
-  private List<HeroController> unitList;
+  private GridPosition _position;
+  [CanBeNull] private MonoBehaviour _occupant;
 
-  public GridObject(GridSystem gridSystem, GridPosition position) {
-    this.gridSystem = gridSystem;
-    this.position = position;
-    unitList = new List<HeroController>();
+  public GridObject(GridPosition position) {
+    this._position = position;
   }
 
   public override string ToString() {
-    var units = unitList.Aggregate("", (current, unit) => current + (unit.ToString() + "\n"));
-    return position.ToString() + "\n " + units;
+    return _position.ToString() + "\n " + _occupant;
   }
 
-  public void AddUnit(HeroController heroController) {
-    unitList.Add(heroController);
+  public void AddOccupant(MonoBehaviour occupant) {
+    this._occupant = occupant;
   }
 
-  public void RemoveUnit(HeroController heroController) {
-    unitList.Remove(heroController);
+  public MonoBehaviour GetOccupant() {
+    return _occupant;
   }
 
-  public List<HeroController> GetUnitList() {
-    return unitList;
+  public void RemoveOccupant() {
+    this._occupant = null;
   }
-  
-  public bool HasUnits() {
-    return unitList.Count > 0;
+
+  public bool IsOccupied() {
+    return _occupant is null;
   }
 }

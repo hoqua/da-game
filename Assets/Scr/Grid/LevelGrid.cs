@@ -1,13 +1,15 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using UnityEngine;
+using Debug = UnityEngine.Debug;
 
 public class LevelGrid : MonoBehaviour {
   public static LevelGrid Instance { get; private set; }
 
   [SerializeField] private Transform debugPrefab;
 
-  private GridSystem gridSystem;
+  private GridSystem _gridSystem;
 
   private void Awake() {
     if (Instance != null) {
@@ -16,49 +18,47 @@ public class LevelGrid : MonoBehaviour {
     }
 
     Instance = this;
-    gridSystem = new GridSystem(10, 10, 2f);
-    gridSystem.CreateDebugObjects(debugPrefab);
+    _gridSystem = new GridSystem(10, 10, 2f);
+    _gridSystem.CreateDebugObjects(debugPrefab);
   }
 
-  public void AddUnit(HeroController heroController, GridPosition position) {
-    var gridObject = gridSystem.GetGridObject(position);
-    gridObject.AddUnit(heroController);
+  public void AddUnit(MonoBehaviour occupant, GridPosition position) {
+    var gridObject = _gridSystem.GetGridObject(position);
+    gridObject.AddOccupant(occupant);
   }
 
-  public List<HeroController> GetUnits(GridPosition position) {
-    var gridObject = gridSystem.GetGridObject(position);
-    return gridObject.GetUnitList();
+  public MonoBehaviour GetUnits(GridPosition position) {
+    return _gridSystem.GetGridObject(position).GetOccupant();
   }
 
   private Vector3 GetUnitPosition(GridPosition gridPosition) {
     return new Vector3(gridPosition.x, 0, gridPosition.z) * 2f;
   }
 
-  public void RemoveUnit(GridPosition position, HeroController heroController) {
-    var gridObject = gridSystem.GetGridObject(position);
-    gridObject.RemoveUnit(heroController);
+  public void RemoveUnit(GridPosition position, MonoBehaviour occupant) {
+    _gridSystem.GetGridObject(position).RemoveOccupant();
   }
 
   public GridPosition GetPosition(Vector3 position) {
-    return gridSystem.GetGridPosition(position);
+    return _gridSystem.GetGridPosition(position);
   }
 
   public Vector3 GetWorldPosition(GridPosition position) {
-    return gridSystem.GetWorldPosition(position);
+    return _gridSystem.GetWorldPosition(position);
   }
 
-  public void UnitMoved(HeroController heroController, GridPosition oldPosition, GridPosition newPosition) {
-    RemoveUnit(oldPosition, heroController);
-    AddUnit(heroController, newPosition);
+  public void UnitMoved(MonoBehaviour occupant, GridPosition oldPosition, GridPosition newPosition) {
+    RemoveUnit(oldPosition, occupant);
+    AddUnit(occupant, newPosition);
   }
 
   public bool IsValidGridPosition(GridPosition gridPosition) {
-    return gridSystem.IsValidGridPosition(gridPosition);
+    return _gridSystem.IsValidGridPosition(gridPosition);
   }
 
 
   public bool HasUnits(GridPosition gridPosition) {
-    return gridSystem.GetGridObject(gridPosition).HasUnits();
+    return _gridSystem.GetGridObject(gridPosition).IsOccupied();
   }
 
   public List<GridPosition> GetValidMovePositions(GridPosition unitPosition, int maxMoveDistance) {
@@ -85,7 +85,13 @@ public class LevelGrid : MonoBehaviour {
   }
 
   public bool IsValidPosition(GridPosition targetPosition, GridPosition unitPosition, int maxMoveDistance) {
-    var validPositions = GetValidMovePositions(unitPosition, maxMoveDistance);
-    return validPositions.Contains(targetPosition);
+    if(!IsValidGridPosition(targetPosition)) return false;
+    if (GridPosition.isEquals(unitPosition, targetPosition)) return false;
+    
+    return true;
+  }
+  
+  public MonoBehaviour GetOccupant(GridPosition gridPosition) {
+    return _gridSystem.GetGridObject(gridPosition).GetOccupant();
   }
 }

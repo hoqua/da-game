@@ -5,7 +5,6 @@ public class HeroController : MonoBehaviour {
   [SerializeField] private Animator unitAnimator;
   [SerializeField] private int maxMoveDistance = 1;
 
-  private GridPosition _currentPosition;
   private MovementSystem _movementSystem;
 
   private void Awake() {
@@ -13,16 +12,17 @@ public class HeroController : MonoBehaviour {
   }
 
   private void Start() {
-    _currentPosition = LevelGrid.Instance.GetPosition(transform.position);
-    LevelGrid.Instance.AddUnit(this, _currentPosition);
+    var currentPosition = LevelGrid.Instance.GetPosition(transform.position);
+    LevelGrid.Instance.AddUnit(this, currentPosition);
   }
 
   private void Update() {
     if (!Input.GetMouseButtonDown(0)) return;
-    
-    var position = LevelGrid.Instance.GetPosition(MouseWorld.GetPosition());
 
-    if (!LevelGrid.Instance.IsValidPosition(position, _currentPosition, maxMoveDistance)) {
+    var position = LevelGrid.Instance.GetPosition(MouseWorld.GetPosition());
+    var currentPosition = LevelGrid.Instance.GetPosition(transform.position);
+
+    if (!LevelGrid.Instance.IsValidPosition(position, currentPosition, maxMoveDistance)) {
       return;
     }
 
@@ -30,10 +30,9 @@ public class HeroController : MonoBehaviour {
 
     if (cellOccupant is not null && cellOccupant.GetComponent<EnemyController>()) {
       _movementSystem.MeleeAttack(position);
-    }else {
+    }
+    else {
       _movementSystem.Move(position);
     }
-
-
   }
 }

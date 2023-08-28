@@ -44,14 +44,13 @@ public class MovementSystem : MonoBehaviour {
     var unitGridPosition = LevelGrid.Instance.GetPosition(targetPosition);
     var attackable = LevelGrid.Instance.GetOccupant(unitGridPosition).GetComponent<AttackableComponent>();
     
-    float maxEnemyDimension = Mathf.Max(attackable.GetSize().x, attackable.GetSize().z); // Consider the maximum dimension
+    var maxEnemyDimension = Mathf.Max(attackable.GetSize().x, attackable.GetSize().z); // Consider the maximum dimension
 
     // Calculate the attack offset based on the enemy size
-    float attackOffset = maxEnemyDimension;
-    
+
     unitAnimator.SetBool(isMoving, true);
 
-    while (Vector3.Distance(transform.position , targetPosition) > attackOffset) {
+    while (Vector3.Distance(transform.position , targetPosition) > maxEnemyDimension) {
       Move(targetPosition);
 
       yield return null;
@@ -109,8 +108,8 @@ public class MovementSystem : MonoBehaviour {
   }
 
   private void Move(Vector3 targetPosition) {
-    Vector3 moveDir = (targetPosition - transform.position).normalized;
-    Quaternion targetRotation = Quaternion.LookRotation(moveDir);
+    var moveDir = (targetPosition - transform.position).normalized;
+    var targetRotation = Quaternion.LookRotation(moveDir);
     transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotateSpeed * Time.deltaTime);
     transform.position += moveDir * (moveSpeed * Time.deltaTime);
   }

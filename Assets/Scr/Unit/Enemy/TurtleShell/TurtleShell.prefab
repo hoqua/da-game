@@ -10,7 +10,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 100052, guid: fe21ab1afd3054b789a8e0bcab2d78b6, type: 3}
       propertyPath: m_Name
-      value: TurtleShellMesh
+      value: TurtleShell
       objectReference: {fileID: 0}
     - target: {fileID: 400052, guid: fe21ab1afd3054b789a8e0bcab2d78b6, type: 3}
       propertyPath: m_LocalScale.x
@@ -84,6 +84,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 9105764954185803553}
+    - targetCorrespondingSourceObject: {fileID: 100052, guid: fe21ab1afd3054b789a8e0bcab2d78b6,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7918044405439166666}
   m_SourcePrefab: {fileID: 100100000, guid: fe21ab1afd3054b789a8e0bcab2d78b6, type: 3}
 --- !u!1 &3940653546661555101 stripped
 GameObject:
@@ -115,3 +119,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7bedc52b14b484d8fab99eb0f5ed6385, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enemyScriptableObject: {fileID: 11400000, guid: 7a068e9d1fa7c4daaa3a3c177e36fb01,
+    type: 2}
+--- !u!65 &7918044405439166666
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3940653546661555101}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}

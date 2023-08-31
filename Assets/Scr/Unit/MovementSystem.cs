@@ -1,5 +1,8 @@
 using System.Collections;
+using System.Threading.Tasks;
 using UnityEngine;
+using Task = System.Threading.Tasks.Task;
+
 
 public class MovementSystem : MonoBehaviour {
   [SerializeField] private Animator unitAnimator;
@@ -11,103 +14,59 @@ public class MovementSystem : MonoBehaviour {
   private static readonly int isMoving = Animator.StringToHash("isMoving");
   private static readonly int attack = Animator.StringToHash("Attack");
 
-  private Vector3? moveTarget;
-  private Vector3? attackTraget;
-  private Vector3? beforeAttackPosition;
-  private bool attackState;
-  private bool moveState;
-
-  public void Move(GridPosition targetGridPosition) {
-    moveTarget = LevelGrid.Instance.GetWorldPosition(targetGridPosition);
-  }
-
-  public void MeleeAttack(GridPosition targetGridPosition) {
-    attackTraget = LevelGrid.Instance.GetOccupant(targetGridPosition).transform.position;
-  }
-
-  private void Update() {
-    TryMove();
-    TryAttack();
-  }
-
-  private void TryAttack() {
-    if (!attackTraget.HasValue || attackState) return;
-    StartCoroutine(AttackSequence());
-  }
-
-  private IEnumerator AttackSequence() {
-    attackState = true;
-
+  public async Task<bool> Attack(GridPosition gridClickPosition) {
     // Move to target
     var initialPosition = transform.position;
-    var targetPosition = attackTraget.Value;
-    var unitGridPosition = LevelGrid.Instance.GetPosition(targetPosition);
-    var attackable = LevelGrid.Instance.GetOccupant(unitGridPosition).GetComponent<AttackableComponent>();
+    var targetPosition = LevelGrid.Instance.GetWorldPosition(gridClickPosition);
+    var attackable = LevelGrid.Instance.GetOccupant(gridClickPosition).GetComponent<AttackableComponent>();
     
     var maxEnemyDimension = Mathf.Max(attackable.GetSize().x, attackable.GetSize().z); // Consider the maximum dimension
-
-    // Calculate the attack offset based on the enemy size
-
+    
     unitAnimator.SetBool(isMoving, true);
 
     while (Vector3.Distance(transform.position , targetPosition) > maxEnemyDimension) {
-      Move(targetPosition);
+      PerformMove(targetPosition);
 
-      yield return null;
+      await Task.Yield();
     }
 
     unitAnimator.SetTrigger(attack);
     
     // Wait for attack animation to finish
-    var halfOfAnimationTime = unitAnimator.GetCurrentAnimatorStateInfo(0).length / 2;
-    yield return new WaitForSeconds(halfOfAnimationTime);
-    
-    attackable.TakeDamage();
-    
-    yield return new WaitForSeconds(halfOfAnimationTime);
+    var animationInMs = unitAnimator.GetCurrentAnimatorStateInfo(0).length * 1000;
+    await Task.Delay(Mathf.RoundToInt(animationInMs));
     
     // Get back
     while (Vector3.Distance(transform.position, initialPosition) >= 0.01f) {
-      Move(initialPosition);
+      PerformMove(initialPosition);
 
-      yield return null;
+      await Task.Yield();
     }
 
     unitAnimator.SetBool(isMoving, false);
-
-    // Reset variables
-    attackState = false;
-    attackTraget = null;
-    yield return null;
+    return true;
   }
+  
 
-  private void TryMove() {
-    if (!moveTarget.HasValue || moveState) return;
-    StartCoroutine(Movement());
-  }
-
-  private IEnumerator Movement() {
-    moveState = true;
+  public async Task<bool> Move(GridPosition gridClickPosition) {
+    var moveTarget = LevelGrid.Instance.GetWorldPosition(gridClickPosition);
     var oldGridPosition =  LevelGrid.Instance.GetPosition(transform.position);
     unitAnimator.SetBool(isMoving, true);
     
-    while (Vector3.Distance(transform.position, moveTarget.Value) >= stoppingDistance) {
-      Move(moveTarget.Value);
+    while (Vector3.Distance(transform.position, moveTarget) >= stoppingDistance) {
+      PerformMove(moveTarget);
       
-      yield return null;
+      await Task.Yield();
     }
     
     unitAnimator.SetBool(isMoving, false);
     var newGridPosition = LevelGrid.Instance.GetPosition(transform.position);
     LevelGrid.Instance.UnitMoved(this, oldGridPosition, newGridPosition);
     
-    // Reset variables
-    moveState = false;
-    moveTarget = null;
-    yield return null;
+    return true;
   }
 
-  private void Move(Vector3 targetPosition) {
+  private void PerformMove(Vector3 targetPosition) {
     var moveDir = (targetPosition - transform.position).normalized;
     var targetRotation = Quaternion.LookRotation(moveDir);
     transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotateSpeed * Time.deltaTime);

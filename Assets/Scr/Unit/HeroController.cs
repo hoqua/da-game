@@ -6,6 +6,8 @@ public class HeroController : MonoBehaviour {
   [SerializeField] private int maxMoveDistance = 1;
 
   private MovementSystem _movementSystem;
+  private bool _finishedAttack = true;
+  private bool _finishedMove = true;
 
   private void Awake() {
     _movementSystem = GetComponent<MovementSystem>();
@@ -16,7 +18,8 @@ public class HeroController : MonoBehaviour {
     LevelGrid.Instance.AddUnit(this, currentPosition);
   }
 
-  private void Update() {
+  private async void Update() {
+    if (!_finishedAttack || !_finishedMove) return;
     if (!Input.GetMouseButtonDown(0)) return;
 
     var position = LevelGrid.Instance.GetPosition(MouseWorld.GetPosition());
@@ -29,10 +32,12 @@ public class HeroController : MonoBehaviour {
     var cellOccupant = LevelGrid.Instance.GetOccupant(position);
 
     if (cellOccupant is not null && cellOccupant.GetComponent<EnemyController>()) {
-      _movementSystem.MeleeAttack(position);
+      _finishedAttack = false;
+      _finishedAttack = await _movementSystem.Attack(position);
     }
     else {
-      _movementSystem.Move(position);
+      _finishedMove = false;
+      _finishedMove = await _movementSystem.Move(position);
     }
   }
 }

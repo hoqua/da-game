@@ -27,14 +27,7 @@ public class LevelGrid : MonoBehaviour {
     gridObject.AddOccupant(occupant);
   }
 
-  public MonoBehaviour GetUnits(GridPosition position) {
-    return _gridSystem.GetGridObject(position).GetOccupant();
-  }
-
-  private Vector3 GetUnitPosition(GridPosition gridPosition) {
-    return new Vector3(gridPosition.x, 0, gridPosition.z) * 2f;
-  }
-
+  
   public void RemoveUnit(GridPosition position, MonoBehaviour occupant) {
     _gridSystem.GetGridObject(position).RemoveOccupant();
   }
@@ -47,7 +40,8 @@ public class LevelGrid : MonoBehaviour {
     return _gridSystem.GetWorldPosition(position);
   }
 
-  public void UnitMoved(MonoBehaviour occupant, GridPosition oldPosition, GridPosition newPosition) {
+  public void MoveUnit( GridPosition oldPosition, GridPosition newPosition) {
+    var occupant = _gridSystem.GetGridObject(oldPosition).GetOccupant();
     RemoveUnit(oldPosition, occupant);
     AddUnit(occupant, newPosition);
   }
@@ -57,32 +51,32 @@ public class LevelGrid : MonoBehaviour {
   }
 
 
-  public bool HasUnits(GridPosition gridPosition) {
-    return _gridSystem.GetGridObject(gridPosition).IsOccupied();
-  }
+  // public bool HasUnits(GridPosition gridPosition) {
+  //   return _gridSystem.GetGridObject(gridPosition).IsOccupied();
+  // }
 
-  public List<GridPosition> GetValidMovePositions(GridPosition unitPosition, int maxMoveDistance) {
-    var validMovePositions = new List<GridPosition>();
-
-    for (var x = -maxMoveDistance; x <= maxMoveDistance; x++) {
-      for (var z = -maxMoveDistance; z <= maxMoveDistance; z++) {
-        var testGridPosition = new GridPosition(unitPosition.x + x, unitPosition.z + z);
-
-        if (
-          !IsValidGridPosition(testGridPosition) ||
-          GridPosition.isEquals(unitPosition, testGridPosition) ||
-          HasUnits(testGridPosition)
-        ) {
-          continue;
-        }
-
-        Debug.Log(testGridPosition);
-        validMovePositions.Add(testGridPosition);
-      }
-    }
-
-    return validMovePositions;
-  }
+  // public List<GridPosition> GetValidMovePositions(GridPosition unitPosition, int maxMoveDistance) {
+  //   var validMovePositions = new List<GridPosition>();
+  //
+  //   for (var x = -maxMoveDistance; x <= maxMoveDistance; x++) {
+  //     for (var z = -maxMoveDistance; z <= maxMoveDistance; z++) {
+  //       var testGridPosition = new GridPosition(unitPosition.x + x, unitPosition.z + z);
+  //
+  //       if (
+  //         !IsValidGridPosition(testGridPosition) ||
+  //         GridPosition.isEquals(unitPosition, testGridPosition) ||
+  //         HasUnits(testGridPosition)
+  //       ) {
+  //         continue;
+  //       }
+  //
+  //       Debug.Log(testGridPosition);
+  //       validMovePositions.Add(testGridPosition);
+  //     }
+  //   }
+  //
+  //   return validMovePositions;
+  // }
 
   public bool IsValidPosition(GridPosition targetPosition, GridPosition unitPosition, int maxMoveDistance) {
     if(!IsValidGridPosition(targetPosition)) return false;

@@ -1,18 +1,20 @@
-using System.Collections;
 using System.Threading.Tasks;
 using UnityEngine;
 using Task = System.Threading.Tasks.Task;
 
 
-public class MovementSystem : MonoBehaviour {
+public class MovementSystem: MonoBehaviour  {
   [SerializeField] private Animator unitAnimator;
-  [SerializeField] private Transform unitTransform;
 
   private readonly float moveSpeed = 5f;
   private readonly float rotateSpeed = 10f;
   private readonly float stoppingDistance = 0.1f;
   private static readonly int isMoving = Animator.StringToHash("isMoving");
   private static readonly int attack = Animator.StringToHash("Attack");
+  
+  private void Awake() {
+    unitAnimator = GetComponent<Animator>();
+  }
 
   public async Task<bool> Attack(GridPosition gridClickPosition) {
     // Move to target
@@ -61,7 +63,7 @@ public class MovementSystem : MonoBehaviour {
     
     unitAnimator.SetBool(isMoving, false);
     var newGridPosition = LevelGrid.Instance.GetPosition(transform.position);
-    LevelGrid.Instance.UnitMoved(this, oldGridPosition, newGridPosition);
+    LevelGrid.Instance.MoveUnit( oldGridPosition, newGridPosition);
     
     return true;
   }

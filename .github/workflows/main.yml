@@ -13,8 +13,8 @@ jobs:
           - ./
         testMode:
           - editmode
-          # - standalone
-          # - playmode
+        # - standalone
+        # - playmode
          
         
     steps:

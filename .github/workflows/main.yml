@@ -12,9 +12,9 @@ jobs:
         projectPath:
           - ./
         testMode:
-          #          - playmode
+          #- playmode
           - editmode
-    #          - standalone
+          # - standalone
     steps:
       - name: test
         run: ls

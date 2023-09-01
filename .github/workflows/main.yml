@@ -7,7 +7,6 @@ jobs:
     name: Test in ${{ matrix.testMode }}
     runs-on: ubuntu-latest
     strategy:
-      fail-fast: false
       matrix:
         projectPath:
           - ./
@@ -20,6 +19,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
         with:
+          fetch-depth: 0
       - uses: actions/cache@v2
         with:
           path: ${{ matrix.projectPath }}/Library

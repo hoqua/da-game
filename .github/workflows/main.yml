@@ -6,6 +6,8 @@ jobs:
   main:
     runs-on: ubuntu-latest
     steps:
+      - name: LS
+        run: ls
       - uses: game-ci/unity-test-runner@v2
         env:
           UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}

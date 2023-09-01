@@ -12,5 +12,4 @@ jobs:
         env:
           UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
         with:
-          projectPath: ./da-game
           githubToken: ${{ secrets.GITHUB_TOKEN }}

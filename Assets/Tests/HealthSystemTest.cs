@@ -10,7 +10,13 @@ public class HealthSystemTest
     [Test]
     public void HealthSystemTestSimplePasses()
     {
-        // Use the Assert class to test conditions
+        Assert.AreEqual(1, 1);
+    }
+    
+    [Test]
+    public void HealthSystemTestSimpleFails()
+    {
+      Assert.AreEqual(1, 2);
     }
 
     // A UnityTest behaves like a coroutine in Play Mode. In Edit Mode you can use

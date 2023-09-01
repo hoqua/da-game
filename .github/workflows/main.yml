@@ -6,12 +6,11 @@ jobs:
   main:
     runs-on: ubuntu-latest
     steps:
-      - name: LS
-        run: ls
       - uses: game-ci/unity-test-runner@v2
         env:
           UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
         with:
           projectPath: ${{ matrix.projectPath }}
-          unityVersion: ${{ matrix.unityVersion }}
+          unityVersion: 
+            - 2022.3.7f1
           githubToken: ${{ secrets.GITHUB_TOKEN }}

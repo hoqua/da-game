@@ -12,9 +12,10 @@ jobs:
         projectPath:
           - ./
         testMode:
+          #- standalone
           #- playmode
           - editmode
-          # - standalone
+        
     steps:
       - uses: actions/checkout@v2
         with:

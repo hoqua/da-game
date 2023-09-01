@@ -16,8 +16,6 @@ jobs:
           - editmode
           # - standalone
     steps:
-      - name: test
-        run: ls
       - uses: actions/checkout@v2
         with:
           lfs: true

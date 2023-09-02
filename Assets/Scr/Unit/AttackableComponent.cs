@@ -34,7 +34,7 @@ public class AttackableComponent : MonoBehaviour {
 
   public void TakeDamage() {
     _renderer.material.color = new Color(1, 0, 0, .1f);
-    _animator.SetTrigger(Damage);
+    // _animator.SetTrigger(Damage);
 
     StartCoroutine(ChangeBackToOriginalMaterial());
   }

@@ -1,11 +1,9 @@
-using System.Collections.Generic;
-using System.Linq;
 using JetBrains.Annotations;
 using UnityEngine;
 
 public class GridObject {
-  private GridPosition _position;
   [CanBeNull] private MonoBehaviour _occupant;
+  private GridPosition _position;
 
   public GridObject(GridPosition position) {
     this._position = position;
@@ -19,6 +17,7 @@ public class GridObject {
     this._occupant = occupant;
   }
 
+  [CanBeNull]
   public MonoBehaviour GetOccupant() {
     return _occupant;
   }

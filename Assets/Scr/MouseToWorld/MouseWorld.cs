@@ -4,7 +4,7 @@ public class MouseWorld : MonoBehaviour {
   private static MouseWorld instance;
   [SerializeField] private LayerMask mousePlaneMask;
   private Color _originalColor;
-  private HeroController _player;
+  private PlayerController _player;
   private MeshRenderer _renderer;
 
   private void Awake() {
@@ -17,7 +17,7 @@ public class MouseWorld : MonoBehaviour {
   }
 
   private void Start() {
-    _player = GameObject.FindGameObjectWithTag("Player").GetComponent<HeroController>();
+    _player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
     _renderer = GetComponentInChildren<MeshRenderer>();
     _originalColor = _renderer.material.color;
   }

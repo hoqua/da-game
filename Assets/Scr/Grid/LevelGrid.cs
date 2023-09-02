@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using JetBrains.Annotations;
 using UnityEngine;
 
 public class LevelGrid : MonoBehaviour {
@@ -91,7 +93,33 @@ public class LevelGrid : MonoBehaviour {
     return true;
   }
 
+  [CanBeNull]
   public MonoBehaviour GetOccupant(GridPosition gridPosition) {
     return _gridSystem.GetGridObject(gridPosition).GetOccupant();
+  }
+
+  public List<EnemyController> GetNeighboringEnemies(GridPosition gridPosition) {
+    var enemiesList = new List<EnemyController>(); // Assuming 4 neighboring cells (top, bottom, left, right)
+
+    // clockwise order from left bottom
+    int[] xOffset = { -1, -1, -1, 0, 1, 1, 1, 0 };
+    int[] zOffset = { -1, 0, 1, 1, 1, 0, -1, -1 };
+
+    for (var i = 0; i < xOffset.Length; i++) {
+      var newX = gridPosition.x + xOffset[i];
+      var newZ = gridPosition.z + zOffset[i];
+
+      // Check if the new coordinates are within the grid bounds
+      var pickedPosition = new GridPosition(newX, newZ);
+
+      if (!IsValidGridPosition(pickedPosition)) continue;
+
+      var enemy = GetOccupant(pickedPosition)?.GetComponent<EnemyController>();
+      if (enemy) {
+        enemiesList.Add(enemy);
+      }
+    }
+
+    return enemiesList;
   }
 }

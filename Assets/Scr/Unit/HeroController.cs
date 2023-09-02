@@ -1,13 +1,11 @@
-using System;
 using UnityEngine;
 
 public class HeroController : MonoBehaviour {
-  [SerializeField] private Animator unitAnimator;
   [SerializeField] private int maxMoveDistance = 1;
-
-  private MovementSystem _movementSystem;
   private bool _finishedAttack = true;
   private bool _finishedMove = true;
+
+  private MovementSystem _movementSystem;
 
   private void Awake() {
     _movementSystem = GetComponent<MovementSystem>();
@@ -25,7 +23,7 @@ public class HeroController : MonoBehaviour {
     var position = LevelGrid.Instance.GetPosition(MouseWorld.GetPosition());
     var currentPosition = LevelGrid.Instance.GetPosition(transform.position);
 
-    if (!LevelGrid.Instance.IsValidPosition(position, currentPosition, maxMoveDistance)) {
+    if (!LevelGrid.Instance.IsValidPosition(position, currentPosition, GetMoveDistance())) {
       return;
     }
 
@@ -39,5 +37,9 @@ public class HeroController : MonoBehaviour {
       _finishedMove = false;
       _finishedMove = await _movementSystem.Move(position);
     }
+  }
+
+  public int GetMoveDistance() {
+    return maxMoveDistance;
   }
 }

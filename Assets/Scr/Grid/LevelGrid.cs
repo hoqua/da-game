@@ -1,15 +1,10 @@
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using UnityEngine;
-using Debug = UnityEngine.Debug;
 
 public class LevelGrid : MonoBehaviour {
-  public static LevelGrid Instance { get; private set; }
-
   [SerializeField] private Transform debugPrefab;
 
   private GridSystem _gridSystem;
+  public static LevelGrid Instance { get; private set; }
 
   private void Awake() {
     if (Instance != null) {
@@ -27,7 +22,7 @@ public class LevelGrid : MonoBehaviour {
     gridObject.AddOccupant(occupant);
   }
 
-  
+
   public void RemoveUnit(GridPosition position, MonoBehaviour occupant) {
     _gridSystem.GetGridObject(position).RemoveOccupant();
   }
@@ -40,7 +35,7 @@ public class LevelGrid : MonoBehaviour {
     return _gridSystem.GetWorldPosition(position);
   }
 
-  public void MoveUnit( GridPosition oldPosition, GridPosition newPosition) {
+  public void MoveUnit(GridPosition oldPosition, GridPosition newPosition) {
     var occupant = _gridSystem.GetGridObject(oldPosition).GetOccupant();
     RemoveUnit(oldPosition, occupant);
     AddUnit(occupant, newPosition);
@@ -78,13 +73,24 @@ public class LevelGrid : MonoBehaviour {
   //   return validMovePositions;
   // }
 
-  public bool IsValidPosition(GridPosition targetPosition, GridPosition unitPosition, int maxMoveDistance) {
-    if(!IsValidGridPosition(targetPosition)) return false;
+  // Diagonal resulting in a total Manhattan distance of 2.
+  private int CellDistance(GridPosition cell1, GridPosition cell2) {
+    int deltaX = Mathf.Abs(cell1.x - cell2.x);
+    int deltaY = Mathf.Abs(cell1.z - cell2.z);
+
+    return deltaX + deltaY;
+  }
+
+  public bool IsValidPosition(GridPosition targetPosition, GridPosition unitPosition, int moveDistance) {
+    if (!IsValidGridPosition(targetPosition)) return false;
     if (GridPosition.isEquals(unitPosition, targetPosition)) return false;
-    
+
+    var distance = CellDistance(targetPosition, unitPosition);
+    if (distance != moveDistance) return false;
+
     return true;
   }
-  
+
   public MonoBehaviour GetOccupant(GridPosition gridPosition) {
     return _gridSystem.GetGridObject(gridPosition).GetOccupant();
   }

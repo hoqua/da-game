@@ -1,15 +1,15 @@
 using UnityEngine;
 
 public class GridSystem {
-  private readonly int _width;
-  private readonly int _height;
   private readonly float _cellSize;
   private readonly GridObject[,] _gridObjects = new GridObject[10, 10];
+  private readonly int _height;
+  private readonly int _width;
 
   public GridSystem(int width, int height, float cellSize) {
-    this._width = width;
-    this._height = height;
-    this._cellSize = cellSize;
+    _width = width;
+    _height = height;
+    _cellSize = cellSize;
 
     for (var x = 0; x < width; x++) {
       for (var z = 0; z < height; z++) {

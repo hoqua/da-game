@@ -2,9 +2,9 @@ public struct GridPosition {
   public int x;
   public int z;
 
-  public GridPosition(int x, int y) {
+  public GridPosition(int x, int z) {
     this.x = x;
-    this.z = y;
+    this.z = z;
   }
 
   public override string ToString() {
@@ -13,5 +13,5 @@ public struct GridPosition {
 
   public static bool isEquals(GridPosition a, GridPosition b) {
     return a.x == b.x && a.z == b.z;
-  } 
+  }
 }

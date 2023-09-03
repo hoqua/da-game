@@ -4,11 +4,11 @@ using UnityEngine;
 public class WeaponController : MonoBehaviour {
   private float attackRange = 1f;
 
-  private int damage = 1;
+  private int damage = 10;
 
   private void OnTriggerEnter(Collider other) {
     if (other.CompareTag("Attackable")) {
-      other.GetComponent<AttackableComponent>().TakeDamage();
+      other.GetComponent<AttackableComponent>().TakeDamage(damage);
     }
   }
 }

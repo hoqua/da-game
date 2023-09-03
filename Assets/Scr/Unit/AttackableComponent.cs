@@ -14,7 +14,6 @@ public class AttackableComponent : MonoBehaviour {
   private float _currentDamage;
 
   public GameObject damageTextPrefab, enemyInstance;
-  public string textToDisplay;
 
   // Current stats
   private float _currentHealth;
@@ -33,22 +32,17 @@ public class AttackableComponent : MonoBehaviour {
     _originalColor = _renderer.material.color;
   }
 
-  private void Update()
-  {
-    if (Input.GetMouseButtonDown(0))
-    {
-      GameObject DamageTextInstance = Instantiate(damageTextPrefab, enemyInstance.transform);
-      DamageTextInstance.transform.GetChild(0).GetComponent<TextMeshPro>().SetText(textToDisplay);
-    }
-  }
-
   public Vector3 GetSize() {
     return _renderer.bounds.size;
   }
 
-  public void TakeDamage() {
+  public void TakeDamage(int damage) {
     _renderer.material.color = new Color(1, 0, 0, .1f);
     // _animator.SetTrigger(Damage);
+
+    string damageText = damage.ToString();
+    GameObject DamageTextInstance = Instantiate(damageTextPrefab, enemyInstance.transform);
+    DamageTextInstance.transform.GetChild(0).GetComponent<TextMeshPro>().SetText(damageText);
 
     StartCoroutine(ChangeBackToOriginalMaterial());
   }

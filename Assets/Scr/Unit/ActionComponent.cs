@@ -1,14 +1,14 @@
 using System.Threading.Tasks;
 using UnityEngine;
 
-public class MovementSystem : MonoBehaviour {
+public class ActionComponent : MonoBehaviour {
   private static readonly int isMoving = Animator.StringToHash("IsMoving");
   private static readonly int attack = Animator.StringToHash("Attack");
-  [SerializeField] private Animator unitAnimator;
 
   private readonly float moveSpeed = 5f;
   private readonly float rotateSpeed = 10f;
   private readonly float stoppingDistance = 0.1f;
+  private Animator unitAnimator;
 
   private void Awake() {
     unitAnimator = GetComponent<Animator>();
@@ -18,15 +18,19 @@ public class MovementSystem : MonoBehaviour {
     // Move to target
     var initialPosition = transform.position;
     var targetPosition = LevelGrid.Instance.GetWorldPosition(gridClickPosition);
-    var attackable = LevelGrid.Instance.GetOccupant(gridClickPosition).GetComponent<AttackableComponent>();
-    var closestPoint = attackable.GetClosestPoint(initialPosition);
+    var closestPoint = LevelGrid.Instance
+      .GetOccupant(gridClickPosition)
+      ?.GetComponent<AttackableComponent>()
+      ?.GetClosestPoint(initialPosition);
 
+    // if no value return true to finish attack
+    if (!closestPoint.HasValue) return true;
 
     unitAnimator.SetBool(isMoving, true);
     // TODO: should be configurable on weapon
-    var weaponOffsetDistance = Vector3.Distance(transform.position, closestPoint) / 2;
+    var weaponOffsetDistance = Vector3.Distance(transform.position, closestPoint.Value) / 2;
 
-    while (Vector3.Distance(transform.position, closestPoint) >= weaponOffsetDistance) {
+    while (Vector3.Distance(transform.position, closestPoint.Value) >= weaponOffsetDistance) {
       PerformMove(targetPosition);
 
       await Task.Yield();
@@ -34,7 +38,7 @@ public class MovementSystem : MonoBehaviour {
 
     unitAnimator.SetTrigger(attack);
 
-    Debug.Log(unitAnimator.GetCurrentAnimatorStateInfo(0).IsTag("Attack"));
+    // I
     while (!unitAnimator.GetCurrentAnimatorStateInfo(0).IsTag("Attack")) {
       await Task.Yield();
     }

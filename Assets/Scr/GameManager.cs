@@ -19,21 +19,26 @@ public class GameManager : MonoBehaviour {
   private async Task Start() {
     await UpdateGameState(GameState.PlayerTurn);
     _player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
+    PlayerController.OnPlayerTurnEnded += OnPlayerTurnEnded;
+  }
+
+  private void OnDestroy() {
+    PlayerController.OnPlayerTurnEnded -= OnPlayerTurnEnded;
   }
 
   public static event Action<GameState> OnGameStateChanged;
 
-  public async Task UpdateGameState(GameState gameState) {
+  private async Task UpdateGameState(GameState gameState) {
     // Event on top level because Tasks(EnemyAttacks) are awaited somehow
     // Moved to explicit await for all async methods
     OnGameStateChanged?.Invoke(gameState);
 
-    if (gameState == GameState.PlayerTurn) {
-    }
-    else if (gameState == GameState.EnemyTurn) {
+    if (gameState == GameState.EnemyTurn) {
       await EnemyAttacks();
     }
-    else if (gameState == GameState.GameOver) {
+
+    if (gameState == GameState.GameOver) {
+      Debug.Log("Game Over");
     }
   }
 
@@ -47,6 +52,10 @@ public class GameManager : MonoBehaviour {
 
     await Task.WhenAll(enemyAttacks);
     await UpdateGameState(GameState.PlayerTurn);
+  }
+
+  private async void OnPlayerTurnEnded() {
+    await UpdateGameState(GameState.EnemyTurn);
   }
 }
 

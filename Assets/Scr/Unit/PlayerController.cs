@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour {
@@ -40,17 +41,16 @@ public class PlayerController : MonoBehaviour {
       _finishedMove = await _actionComponent.Move(position);
     }
 
-    Debug.Log("called update GameState from PlayerController" + _isPlayerTurn + " " + _finishedAttack + " " +
-              _finishedMove);
-    GameManager.Instance.UpdateGameState(GameState.EnemyTurn);
+    OnPlayerTurnEnded?.Invoke();
   }
 
   private void OnDestroy() {
     GameManager.OnGameStateChanged -= OnGameStateChanged;
   }
 
+  public static event Action OnPlayerTurnEnded;
+
   private void OnGameStateChanged(GameState gameState) {
-    Debug.Log("Player got event with game state: " + gameState);
     _isPlayerTurn = gameState == GameState.PlayerTurn;
   }
 

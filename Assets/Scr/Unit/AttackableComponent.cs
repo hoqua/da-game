@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using UnityEngine;
+using TMPro;
 
 // TODO: required colliider
 public class AttackableComponent : MonoBehaviour {
@@ -10,6 +12,8 @@ public class AttackableComponent : MonoBehaviour {
   private Animator _animator;
   private Collider _collider;
   private float _currentDamage;
+
+  public GameObject damageTextPrefab, enemyInstance;
 
   // Current stats
   private float _currentHealth;
@@ -32,9 +36,13 @@ public class AttackableComponent : MonoBehaviour {
     return _renderer.bounds.size;
   }
 
-  public void TakeDamage() {
+  public void TakeDamage(int damage) {
     _renderer.material.color = new Color(1, 0, 0, .1f);
     // _animator.SetTrigger(Damage);
+
+    string damageText = damage.ToString();
+    GameObject DamageTextInstance = Instantiate(damageTextPrefab, enemyInstance.transform);
+    DamageTextInstance.transform.GetChild(0).GetComponent<TextMeshPro>().SetText(damageText);
 
     StartCoroutine(ChangeBackToOriginalMaterial());
   }

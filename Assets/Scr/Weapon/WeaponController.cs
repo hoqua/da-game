@@ -4,7 +4,7 @@ using UnityEngine;
 public class WeaponController : MonoBehaviour {
   private float attackRange = 1f;
 
-  private int damage = 10;
+  private int damage = 10000;
 
   private void OnTriggerEnter(Collider other) {
     if (other.CompareTag("Attackable")) {

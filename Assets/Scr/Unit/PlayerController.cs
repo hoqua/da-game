@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour {
@@ -19,7 +20,7 @@ public class PlayerController : MonoBehaviour {
   }
 
   private async void Update() {
-    if (!_finishedAttack || !_finishedMove) return;
+    if (!_isPlayerTurn || !_finishedAttack || !_finishedMove) return;
     if (!Input.GetMouseButtonDown(0)) return;
 
     var position = LevelGrid.Instance.GetPosition(MouseWorld.GetPosition());
@@ -40,20 +41,17 @@ public class PlayerController : MonoBehaviour {
       _finishedMove = await _actionComponent.Move(position);
     }
 
-    GameManager.Instance.UpdateGameState(GameState.EnemyTurn);
+    OnPlayerTurnEnded?.Invoke();
   }
 
   private void OnDestroy() {
     GameManager.OnGameStateChanged -= OnGameStateChanged;
   }
 
+  public static event Action OnPlayerTurnEnded;
+
   private void OnGameStateChanged(GameState gameState) {
-    if (gameState == GameState.PlayerTurn) {
-      _isPlayerTurn = true;
-    }
-    else if (gameState == GameState.EnemyTurn) {
-      _isPlayerTurn = false;
-    }
+    _isPlayerTurn = gameState == GameState.PlayerTurn;
   }
 
   public int GetMoveDistance() {

@@ -16,26 +16,28 @@ public class GameManager : MonoBehaviour {
     Instance = this;
   }
 
-  private void Start() {
-    UpdateGameState(GameState.PlayerTurn);
+  private async Task Start() {
+    await UpdateGameState(GameState.PlayerTurn);
     _player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
   }
 
   public static event Action<GameState> OnGameStateChanged;
 
-  public void UpdateGameState(GameState gameState) {
+  public async Task UpdateGameState(GameState gameState) {
+    // Event on top level because Tasks(EnemyAttacks) are awaited somehow
+    // Moved to explicit await for all async methods
+    OnGameStateChanged?.Invoke(gameState);
+
     if (gameState == GameState.PlayerTurn) {
     }
     else if (gameState == GameState.EnemyTurn) {
-      EnemyAttacks();
+      await EnemyAttacks();
     }
     else if (gameState == GameState.GameOver) {
     }
-
-    OnGameStateChanged?.Invoke(gameState);
   }
 
-  private async void EnemyAttacks() {
+  private async Task EnemyAttacks() {
     var enemies = LevelGrid.Instance.GetNeighboringEnemies(_player.GetPosition());
 
     var enemyAttacks = new List<Task>();
@@ -44,6 +46,7 @@ public class GameManager : MonoBehaviour {
     }
 
     await Task.WhenAll(enemyAttacks);
+    await UpdateGameState(GameState.PlayerTurn);
   }
 }
 

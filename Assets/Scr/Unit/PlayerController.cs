@@ -19,7 +19,7 @@ public class PlayerController : MonoBehaviour {
   }
 
   private async void Update() {
-    if (!_finishedAttack || !_finishedMove) return;
+    if (!_isPlayerTurn || !_finishedAttack || !_finishedMove) return;
     if (!Input.GetMouseButtonDown(0)) return;
 
     var position = LevelGrid.Instance.GetPosition(MouseWorld.GetPosition());
@@ -40,6 +40,8 @@ public class PlayerController : MonoBehaviour {
       _finishedMove = await _actionComponent.Move(position);
     }
 
+    Debug.Log("called update GameState from PlayerController" + _isPlayerTurn + " " + _finishedAttack + " " +
+              _finishedMove);
     GameManager.Instance.UpdateGameState(GameState.EnemyTurn);
   }
 
@@ -48,12 +50,8 @@ public class PlayerController : MonoBehaviour {
   }
 
   private void OnGameStateChanged(GameState gameState) {
-    if (gameState == GameState.PlayerTurn) {
-      _isPlayerTurn = true;
-    }
-    else if (gameState == GameState.EnemyTurn) {
-      _isPlayerTurn = false;
-    }
+    Debug.Log("Player got event with game state: " + gameState);
+    _isPlayerTurn = gameState == GameState.PlayerTurn;
   }
 
   public int GetMoveDistance() {

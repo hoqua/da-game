@@ -38,7 +38,7 @@ public class ActionComponent : MonoBehaviour {
 
     unitAnimator.SetTrigger(attack);
 
-    Debug.Log("A");
+    // I
     while (!unitAnimator.GetCurrentAnimatorStateInfo(0).IsTag("Attack")) {
       await Task.Yield();
     }

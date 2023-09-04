@@ -215,6 +215,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6911487829920697126}
+  - component: {fileID: 137528018041179883}
   m_Layer: 0
   m_Name: TextHolder
   m_TagString: Untagged
@@ -238,3 +239,15 @@ Transform:
   - {fileID: 5689454329633861778}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &137528018041179883
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3923382188612352541}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 560d0a716f7b48bc927e923f5ba6dc25, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

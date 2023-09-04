@@ -40,8 +40,8 @@ public class AttackableComponent : MonoBehaviour {
     // _animator.SetTrigger(Damage);
 
     var damageText = damage.ToString();
-    Instantiate(damageTextPrefab, transform).transform.GetChild(0)?.GetComponent<TextMeshPro>()?.SetText(damageText);
-
+    //Instantiate(damageTextPrefab, transform).transform.GetChild(0)?.GetComponent<TextMeshPro>()?.SetText(damageText);
+    DamagePopUpGenerator.current.CreatePopUp(transform.position, damageText);
     StartCoroutine(ChangeBackToOriginalMaterial());
   }
 

@@ -46,7 +46,6 @@ public class AttackableComponent : MonoBehaviour {
     var popup = Instantiate(damageTextPrefab, transform.position, Quaternion.identity);
     var temp = popup.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
     temp.text = damage.ToString();
-    ;
     Destroy(popup, 1f);
   }
 

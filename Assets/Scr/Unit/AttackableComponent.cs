@@ -38,11 +38,15 @@ public class AttackableComponent : MonoBehaviour {
   public void TakeDamage(int damage) {
     _renderer.material.color = new Color(1, 0, 0, .1f);
     // _animator.SetTrigger(Damage);
-
-    var damageText = damage.ToString();
-    //Instantiate(damageTextPrefab, transform).transform.GetChild(0)?.GetComponent<TextMeshPro>()?.SetText(damageText);
-    DamagePopUpGenerator.current.CreatePopUp(transform.position, damageText);
+    ShowDamageText(damage);
     StartCoroutine(ChangeBackToOriginalMaterial());
+  }
+
+  private void ShowDamageText(int damage) {
+    var popup = Instantiate(damageTextPrefab, transform.position, Quaternion.identity);
+    var temp = popup.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
+    temp.text = damage.ToString();
+    Destroy(popup, 1f);
   }
 
   private IEnumerator ChangeBackToOriginalMaterial() {

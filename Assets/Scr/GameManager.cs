@@ -28,27 +28,22 @@ public class GameManager : MonoBehaviour {
 
   public static event Action<GameState> OnGameStateChanged;
 
+
   private async Task UpdateGameState(GameState gameState) {
     // Event on top level because Tasks(EnemyAttacks) are awaited somehow
     // Moved to explicit await for all async methods
     OnGameStateChanged?.Invoke(gameState);
 
-    if (gameState == GameState.EnemyTurn) {
-      await EnemyAttacks();
-    }
+    if (gameState == GameState.EnemyTurn) await EnemyAttacks();
 
-    if (gameState == GameState.GameOver) {
-      Debug.Log("Game Over");
-    }
+    if (gameState == GameState.GameOver) Debug.Log("Game Over");
   }
 
   private async Task EnemyAttacks() {
     var enemies = LevelGrid.Instance.GetNeighboringEnemies(_player.GetPosition());
 
     var enemyAttacks = new List<Task>();
-    foreach (var enemy in enemies) {
-      enemyAttacks.Add(enemy.Attack(_player.GetPosition()));
-    }
+    foreach (var enemy in enemies) enemyAttacks.Add(enemy.Attack(_player.GetPosition()));
 
     await Task.WhenAll(enemyAttacks);
     await UpdateGameState(GameState.PlayerTurn);

@@ -14,7 +14,7 @@ public class ActionComponent : MonoBehaviour {
     unitAnimator = GetComponent<Animator>();
   }
 
-  public async Task<bool> Attack(GridPosition gridClickPosition) {
+  public async Task Attack(GridPosition gridClickPosition) {
     // Move to target
     var initialPosition = transform.position;
     var targetPosition = LevelGrid.Instance.GetWorldPosition(gridClickPosition);
@@ -24,7 +24,7 @@ public class ActionComponent : MonoBehaviour {
       ?.GetClosestPoint(initialPosition);
 
     // if no value return true to finish attack
-    if (!closestPoint.HasValue) return true;
+    if (!closestPoint.HasValue) return;
 
     unitAnimator.SetBool(isMoving, true);
     // TODO: should be configurable on weapon
@@ -54,11 +54,10 @@ public class ActionComponent : MonoBehaviour {
     }
 
     unitAnimator.SetBool(isMoving, false);
-    return true;
   }
 
 
-  public async Task<bool> Move(GridPosition gridClickPosition) {
+  public async Task Move(GridPosition gridClickPosition) {
     var moveTarget = LevelGrid.Instance.GetWorldPosition(gridClickPosition);
     var oldGridPosition = LevelGrid.Instance.GetPosition(transform.position);
     unitAnimator.SetBool(isMoving, true);
@@ -72,8 +71,6 @@ public class ActionComponent : MonoBehaviour {
     unitAnimator.SetBool(isMoving, false);
     var newGridPosition = LevelGrid.Instance.GetPosition(transform.position);
     LevelGrid.Instance.MoveUnit(oldGridPosition, newGridPosition);
-
-    return true;
   }
 
   private void PerformMove(Vector3 targetPosition) {

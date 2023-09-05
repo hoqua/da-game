@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 8164588351190196592}
   - component: {fileID: 5734843249236278816}
   m_Layer: 5
-  m_Name: Damage Pop-Up
+  m_Name: DamagePopUp
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -247,8 +247,6 @@ GameObject:
   - component: {fileID: 3847267480589045676}
   - component: {fileID: 8317903482748620747}
   - component: {fileID: 3003041318467115485}
-  - component: {fileID: 3747081351536220121}
-  - component: {fileID: 7209412435660929017}
   m_Layer: 5
   m_Name: Text (TMP)
   m_TagString: Untagged
@@ -372,27 +370,3 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
---- !u!114 &3747081351536220121
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2522037854111358581}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6cf93e85ef6ab964a8312bf9cb549e33, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &7209412435660929017
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2522037854111358581}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 06d8392d23c9d9f439dc5c9c9a517e55, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

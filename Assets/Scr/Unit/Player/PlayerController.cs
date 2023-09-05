@@ -5,9 +5,7 @@ public class PlayerController : MonoBehaviour {
   [SerializeField] private int maxMoveDistance = 1;
 
   private ActionComponent _actionComponent;
-  private bool _finishedAttack = true;
-  private bool _finishedMove = true;
-  private bool _isPlayerTurn = true;
+  private bool isPlayerTurn;
 
   private void Awake() {
     _actionComponent = GetComponent<ActionComponent>();
@@ -20,7 +18,7 @@ public class PlayerController : MonoBehaviour {
   }
 
   private async void Update() {
-    if (!_isPlayerTurn || !_finishedAttack || !_finishedMove) return;
+    if (!isPlayerTurn) return;
     if (!Input.GetMouseButtonDown(0)) return;
 
     var position = LevelGrid.Instance.GetPosition(MouseWorld.GetPosition());
@@ -33,12 +31,10 @@ public class PlayerController : MonoBehaviour {
     var cellOccupant = LevelGrid.Instance.GetOccupant(position);
 
     if (cellOccupant is not null && cellOccupant.GetComponent<EnemyController>()) {
-      _finishedAttack = false;
-      _finishedAttack = await _actionComponent.Attack(position);
+      await _actionComponent.Attack(position);
     }
     else {
-      _finishedMove = false;
-      _finishedMove = await _actionComponent.Move(position);
+      await _actionComponent.Move(position);
     }
 
     OnPlayerTurnEnded?.Invoke();
@@ -51,7 +47,7 @@ public class PlayerController : MonoBehaviour {
   public static event Action OnPlayerTurnEnded;
 
   private void OnGameStateChanged(GameState gameState) {
-    _isPlayerTurn = gameState == GameState.PlayerTurn;
+    isPlayerTurn = gameState == GameState.PlayerTurn;
   }
 
   public int GetMoveDistance() {
@@ -61,4 +57,10 @@ public class PlayerController : MonoBehaviour {
   public GridPosition GetPosition() {
     return LevelGrid.Instance.GetPosition(transform.position);
   }
+}
+
+internal enum PlayerState {
+  WaitingInput,
+  Moving,
+  Attacking
 }

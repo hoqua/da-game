@@ -1,7 +1,7 @@
 using TMPro;
 using UnityEngine;
 
-public class DamagePopUpAnimation : MonoBehaviour {
+public class DamagePopUp : MonoBehaviour {
   public AnimationCurve opacityCurve;
   public AnimationCurve scaleCurve;
   public AnimationCurve heightCurve;

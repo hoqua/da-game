@@ -779,7 +779,7 @@ PrefabInstance:
         type: 3}
       propertyPath: enemyScriptableObject
       value: 
-      objectReference: {fileID: 11400000, guid: 577c98217e8704fc6a8e90a48b71e60b,
+      objectReference: {fileID: 11400000, guid: f0714a4a71bcc40808fdde17eca8b7d6,
         type: 2}
     - target: {fileID: 2810409540141751613, guid: cafac9f63dbf944818daddd2a0697e79,
         type: 3}
@@ -1036,6 +1036,36 @@ PrefabInstance:
         type: 3}
       propertyPath: m_TagString
       value: Attackable
+      objectReference: {fileID: 0}
+    - target: {fileID: 7918044405439166666, guid: c45befe64ac174c88a572bc3170277b7,
+        type: 3}
+      propertyPath: m_Size.y
+      value: 1.1448767
+      objectReference: {fileID: 0}
+    - target: {fileID: 7918044405439166666, guid: c45befe64ac174c88a572bc3170277b7,
+        type: 3}
+      propertyPath: m_Size.z
+      value: 1.0000001
+      objectReference: {fileID: 0}
+    - target: {fileID: 7918044405439166666, guid: c45befe64ac174c88a572bc3170277b7,
+        type: 3}
+      propertyPath: m_Center.y
+      value: 0.5606077
+      objectReference: {fileID: 0}
+    - target: {fileID: 7918044405439166666, guid: c45befe64ac174c88a572bc3170277b7,
+        type: 3}
+      propertyPath: m_Center.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7918044405439166666, guid: c45befe64ac174c88a572bc3170277b7,
+        type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7918044405439166666, guid: c45befe64ac174c88a572bc3170277b7,
+        type: 3}
+      propertyPath: m_ProvidesContacts
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9105764954185803553, guid: c45befe64ac174c88a572bc3170277b7,
         type: 3}

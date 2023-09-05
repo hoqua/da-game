@@ -2,16 +2,17 @@ using UnityEngine;
 
 [CreateAssetMenu(fileName = "NewUnitStats", menuName = "ScriptableObjects/Unit Stats")]
 public class UnitStatsScriptableObject : ScriptableObject {
-  [SerializeField] public GameObject startingWeapon { get; }
+  [Header("General")]
+  public string unitName = "New Unit";
 
-  [SerializeField] public int maxHealth { get; } = 100;
-  [SerializeField] public int maxMana { get; } = 100;
+  public GameObject startingWeapon;
 
-  [SerializeField] public int attack { get; }
-  [SerializeField] public int defense { get; }
+  [SerializeField]
+  public int maxHealth = 100;
 
-  [SerializeField] public int moveSpeed { get; } = 3;
-  [SerializeField] public int moveRange { get; } = 2;
 
-  [SerializeField] public int attackRange { get; }
+  public int attackPower = 10;
+  public int defense = 5;
+  public float moveSpeed = 5.0f;
+  public float moveRange = 5.0f;
 }

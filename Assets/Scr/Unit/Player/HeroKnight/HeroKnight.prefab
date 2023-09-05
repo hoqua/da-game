@@ -246,7 +246,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8476c2aa3fd34451c843ac07c3b65032, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyScriptableObject: {fileID: 11400000, guid: 577c98217e8704fc6a8e90a48b71e60b,
+  enemyScriptableObject: {fileID: 11400000, guid: f0714a4a71bcc40808fdde17eca8b7d6,
     type: 2}
 --- !u!114 &7537359568636209497
 MonoBehaviour:
@@ -260,7 +260,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7bedc52b14b484d8fab99eb0f5ed6385, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyScriptableObject: {fileID: 11400000, guid: 577c98217e8704fc6a8e90a48b71e60b,
+  enemyScriptableObject: {fileID: 11400000, guid: f0714a4a71bcc40808fdde17eca8b7d6,
     type: 2}
   damagePopupPrefab: {fileID: 5734843249236278816, guid: 2c04decdc02148f4ba4ac43da41e518a,
     type: 3}

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01f0240ba0a4470f917fb61b7ab90087, type: 3}
   m_Name: TurtleShellStats
   m_EditorClassIdentifier: 
-  unitName: TurtleShell
+  unitName: New Unit
   startingWeapon: {fileID: 0}
   maxHealth: 100
   attackPower: 10

@@ -1,6 +1,9 @@
-using UnityEditor;
 using UnityEngine;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
+#if UNITY_EDITOR
 [CustomPropertyDrawer(typeof(RequiredAttribute))]
 public class RequiredDrawer : PropertyDrawer {
   public override void OnGUI(Rect position, SerializedProperty property, GUIContent label) {
@@ -22,3 +25,4 @@ public class RequiredDrawer : PropertyDrawer {
     return base.GetPropertyHeight(property, label);
   }
 }
+#endif

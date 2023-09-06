@@ -5,13 +5,17 @@ public class ActionComponent : MonoBehaviour {
   private static readonly int isMoving = Animator.StringToHash("IsMoving");
   private static readonly int attack = Animator.StringToHash("Attack");
 
-  private readonly float moveSpeed = 5f;
+  [Required] [SerializeField] private UnitStatsScriptableObject enemyScriptableObject;
+
   private readonly float rotateSpeed = 10f;
   private readonly float stoppingDistance = 0.1f;
+
+  private float moveSpeed = 5f;
   private Animator unitAnimator;
 
   private void Awake() {
     unitAnimator = GetComponent<Animator>();
+    moveSpeed = enemyScriptableObject.moveSpeed;
   }
 
   public async Task Attack(GridPosition gridClickPosition) {
@@ -39,9 +43,7 @@ public class ActionComponent : MonoBehaviour {
     unitAnimator.SetTrigger(attack);
 
     // I
-    while (!unitAnimator.GetCurrentAnimatorStateInfo(0).IsTag("Attack")) {
-      await Task.Yield();
-    }
+    while (!unitAnimator.GetCurrentAnimatorStateInfo(0).IsTag("Attack")) await Task.Yield();
 
     var animationInMs = unitAnimator.GetCurrentAnimatorClipInfo(0)[0].clip.length * 1000;
     await Task.Delay(Mathf.RoundToInt(animationInMs));

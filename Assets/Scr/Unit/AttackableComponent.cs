@@ -1,27 +1,29 @@
 using System.Collections;
-using TMPro;
 using UnityEngine;
 
-// TODO: required colliider
+[RequireComponent(typeof(BoxCollider))]
+[RequireComponent(typeof(Animator))]
 public class AttackableComponent : MonoBehaviour {
   private static readonly int Damage = Animator.StringToHash("Damage");
 
-  [SerializeField] private EnemyScriptableObject enemyScriptableObject;
+  [Required]
+  [SerializeField]
+  private UnitStatsScriptableObject enemyScriptableObject;
 
-  public GameObject damageTextPrefab;
+  [Required]
+  public DamagePopUp damagePopupPrefab;
 
   private Animator _animator;
   private Collider _collider;
-  private float _currentDamage;
-
-  // Current stats
+  private float _currentAttackPower;
   private float _currentHealth;
   private Color _originalColor;
   private SkinnedMeshRenderer _renderer;
 
+
   private void Awake() {
-    _currentHealth = enemyScriptableObject.MaxHealth;
-    _currentDamage = enemyScriptableObject.Damage;
+    _currentHealth = enemyScriptableObject.maxHealth;
+    _currentAttackPower = enemyScriptableObject.attackPower;
     _renderer = GetComponentInChildren<SkinnedMeshRenderer>();
     _animator = GetComponent<Animator>();
     _collider = GetComponent<Collider>();
@@ -43,10 +45,8 @@ public class AttackableComponent : MonoBehaviour {
   }
 
   private void ShowDamageText(int damage) {
-    var popup = Instantiate(damageTextPrefab, transform.position, Quaternion.identity);
-    var temp = popup.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
-    temp.text = damage.ToString();
-    Destroy(popup, 1f);
+    var popup = Instantiate(damagePopupPrefab, transform.position, Quaternion.identity);
+    popup.GetComponent<DamagePopUp>()?.SetText(damage.ToString());
   }
 
   private IEnumerator ChangeBackToOriginalMaterial() {

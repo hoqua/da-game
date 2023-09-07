@@ -1,28 +1,32 @@
 using UnityEngine;
 
 public class Health : MonoBehaviour {
-  public int _maxHealth = 100;
-  private int _healthPoints;
+  public int _maxHealth;
+  public int _healthPoints;
   private bool _isDead;
 
-  public Health(int startingHealth) {
+  public Health(int startingHealth, int maxHealth) {
     _healthPoints = startingHealth;
+    _maxHealth = maxHealth;
+  } 
+
+  public void SetMaxHealth(int maxHealth)
+  {
+    _maxHealth = maxHealth;
   }
 
-  private void TakeDamage(int damageAmount) {
+  public void TakeDamage(int damageAmount) {
     _healthPoints -= damageAmount;
-
-    if (_healthPoints <= 0)
-      IsDead();
+    if(IsDead()) _healthPoints = 0;
   }
 
-  private void Heal(int healAmount) {
-    if (_isDead == false) _healthPoints += healAmount;
+  public void Heal(int healAmount) {
+    if (!IsDead()) _healthPoints += healAmount;
     if (_healthPoints > _maxHealth) _healthPoints = _maxHealth;
   }
 
-  private void IsDead() {
-    _healthPoints = 0;
-    _isDead = true;
+  public bool IsDead() {
+    if (_healthPoints <= 0)  return true; 
+    return false;
   }
 }

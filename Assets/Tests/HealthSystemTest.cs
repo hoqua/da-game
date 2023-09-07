@@ -36,6 +36,7 @@ public class HealthSystemTest {
 
     // Assert
     Assert.AreEqual(newMaxHealth, health._maxHealth);
+    Assert.AreEqual(100, health._healthPoints);
   }
 
   [Test]
@@ -51,6 +52,20 @@ public class HealthSystemTest {
     // Assert
     Assert.AreEqual(70, health._healthPoints);
   }
+  
+  [Test]
+  public void TakeLethalDamage_ReducesHealthPoints()
+  {
+    // Arrange
+    Health health = new Health(100, 150);
+    int damageAmount = 100000;
+
+    // Act
+    health.TakeDamage(damageAmount);
+
+    // Assert
+    Assert.AreEqual(0, health._healthPoints);
+  }
 
   [Test]
   public void Heal_IncreasesHealthPoints()
@@ -64,6 +79,20 @@ public class HealthSystemTest {
 
     // Assert
     Assert.AreEqual(90, health._healthPoints);
+  }
+  
+  [Test]
+  public void FullHeal_IncreasesHealthPoints()
+  {
+    // Arrange
+    Health health = new Health(70, 150);
+    int healAmount = 100000;
+
+    // Act
+    health.Heal(healAmount);
+
+    // Assert
+    Assert.AreEqual(150, health._healthPoints);
   }
 
   [Test]

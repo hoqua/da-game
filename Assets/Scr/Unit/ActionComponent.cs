@@ -1,21 +1,20 @@
 using System.Threading.Tasks;
 using UnityEngine;
 
+[RequireComponent(typeof(Animator))]
+[RequireComponent(typeof(StatsComponent))]
 public class ActionComponent : MonoBehaviour {
   private static readonly int isMoving = Animator.StringToHash("IsMoving");
   private static readonly int attack = Animator.StringToHash("Attack");
 
-  [Required] [SerializeField] private UnitStatsScriptableObject enemyScriptableObject;
-
-  private readonly float rotateSpeed = 10f;
   private readonly float stoppingDistance = 0.1f;
+  private StatsComponent _stats;
 
-  private float moveSpeed = 5f;
   private Animator unitAnimator;
 
   private void Awake() {
     unitAnimator = GetComponent<Animator>();
-    moveSpeed = enemyScriptableObject.moveSpeed;
+    _stats = GetComponent<StatsComponent>();
   }
 
   public async Task Attack(GridPosition gridClickPosition) {
@@ -78,7 +77,7 @@ public class ActionComponent : MonoBehaviour {
   private void PerformMove(Vector3 targetPosition) {
     var moveDir = (targetPosition - transform.position).normalized;
     var targetRotation = Quaternion.LookRotation(moveDir);
-    transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotateSpeed * Time.deltaTime);
-    transform.position += moveDir * (moveSpeed * Time.deltaTime);
+    transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, _stats.GetRotateSpeed() * Time.deltaTime);
+    transform.position += moveDir * (_stats.GetMoveSpeed() * Time.deltaTime);
   }
 }

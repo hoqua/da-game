@@ -174,7 +174,15 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 222c48c99d79840568d07f83b1bdc339,
         type: 3}
       insertIndex: -1
+      addedObject: {fileID: 6631089864116722881}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 222c48c99d79840568d07f83b1bdc339,
+        type: 3}
+      insertIndex: -1
       addedObject: {fileID: 1359096195877052989}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 222c48c99d79840568d07f83b1bdc339,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6547170156819438141}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 222c48c99d79840568d07f83b1bdc339,
         type: 3}
       insertIndex: -1
@@ -183,10 +191,6 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 7537359568636209497}
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 222c48c99d79840568d07f83b1bdc339,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 6631089864116722881}
   m_SourcePrefab: {fileID: 100100000, guid: 222c48c99d79840568d07f83b1bdc339, type: 3}
 --- !u!4 &185126035588802826 stripped
 Transform:
@@ -221,49 +225,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &1359096195877052989
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2810409540141751613}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 55383ec58c4f4b9db408e465c919e419, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxMoveDistance: 1
---- !u!114 &2444012515332927954
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2810409540141751613}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8476c2aa3fd34451c843ac07c3b65032, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  enemyScriptableObject: {fileID: 11400000, guid: f0714a4a71bcc40808fdde17eca8b7d6,
-    type: 2}
---- !u!114 &7537359568636209497
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2810409540141751613}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7bedc52b14b484d8fab99eb0f5ed6385, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  enemyScriptableObject: {fileID: 11400000, guid: f0714a4a71bcc40808fdde17eca8b7d6,
-    type: 2}
-  damagePopupPrefab: {fileID: 5734843249236278816, guid: 2c04decdc02148f4ba4ac43da41e518a,
-    type: 3}
 --- !u!65 &6631089864116722881
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -285,6 +246,75 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &1359096195877052989
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2810409540141751613}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 55383ec58c4f4b9db408e465c919e419, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &6547170156819438141
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2810409540141751613}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce0e21d84dc14873b7a4bac99e63a19f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  statsObject: {fileID: 11400000, guid: f0714a4a71bcc40808fdde17eca8b7d6, type: 2}
+  experience: 0
+  level: 0
+  experienceCap: 100
+  levelRanges:
+  - start: 1
+    end: 10
+    experienceCapIncrease: 100
+  - start: 11
+    end: 20
+    experienceCapIncrease: 200
+  - start: 21
+    end: 30
+    experienceCapIncrease: 300
+  - start: 31
+    end: 40
+    experienceCapIncrease: 400
+  attackPower: 0
+  defense: 0
+--- !u!114 &2444012515332927954
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2810409540141751613}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8476c2aa3fd34451c843ac07c3b65032, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &7537359568636209497
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2810409540141751613}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7bedc52b14b484d8fab99eb0f5ed6385, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damagePopupPrefab: {fileID: 5734843249236278816, guid: 2c04decdc02148f4ba4ac43da41e518a,
+    type: 3}
 --- !u!1001 &4875282484671279785
 PrefabInstance:
   m_ObjectHideFlags: 0

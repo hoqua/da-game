@@ -2,31 +2,22 @@ using System.Collections;
 using UnityEngine;
 
 [RequireComponent(typeof(BoxCollider))]
-[RequireComponent(typeof(Animator))]
+[RequireComponent(typeof(StatsComponent))]
 public class AttackableComponent : MonoBehaviour {
-  private static readonly int Damage = Animator.StringToHash("Damage");
-
-  [Required]
-  [SerializeField]
-  private UnitStatsScriptableObject enemyScriptableObject;
-
   [Required]
   public DamagePopUp damagePopupPrefab;
 
-  private Animator _animator;
   private Collider _collider;
-  private float _currentAttackPower;
-  private float _currentHealth;
+
   private Color _originalColor;
   private SkinnedMeshRenderer _renderer;
+  private StatsComponent _stats;
 
 
   private void Awake() {
-    _currentHealth = enemyScriptableObject.maxHealth;
-    _currentAttackPower = enemyScriptableObject.attackPower;
     _renderer = GetComponentInChildren<SkinnedMeshRenderer>();
-    _animator = GetComponent<Animator>();
     _collider = GetComponent<Collider>();
+    _stats = GetComponent<StatsComponent>();
   }
 
   private void Start() {
@@ -40,6 +31,7 @@ public class AttackableComponent : MonoBehaviour {
   public void TakeDamage(int damage) {
     _renderer.material.color = new Color(1, 0, 0, .1f);
     // _animator.SetTrigger(Damage);
+    _stats.TakeDamage(damage);
     ShowDamageText(damage);
     StartCoroutine(ChangeBackToOriginalMaterial());
   }

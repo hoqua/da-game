@@ -3,7 +3,8 @@ using JetBrains.Annotations;
 using UnityEngine;
 
 public class LevelGrid : MonoBehaviour {
-  [SerializeField] private Transform debugPrefab;
+  [SerializeField]
+  private Transform debugPrefab;
 
   private GridSystem _gridSystem;
   public static LevelGrid Instance { get; private set; }
@@ -19,13 +20,13 @@ public class LevelGrid : MonoBehaviour {
     _gridSystem.CreateDebugObjects(debugPrefab);
   }
 
-  public void AddUnit(MonoBehaviour occupant, GridPosition position) {
+  public void AddToCell(MonoBehaviour occupant, GridPosition position) {
     var gridObject = _gridSystem.GetGridObject(position);
     gridObject.AddOccupant(occupant);
   }
 
 
-  public void RemoveUnit(GridPosition position, MonoBehaviour occupant) {
+  public void RemoveFromCell(GridPosition position, MonoBehaviour occupant) {
     _gridSystem.GetGridObject(position).RemoveOccupant();
   }
 
@@ -39,8 +40,8 @@ public class LevelGrid : MonoBehaviour {
 
   public void MoveUnit(GridPosition oldPosition, GridPosition newPosition) {
     var occupant = _gridSystem.GetGridObject(oldPosition).GetOccupant();
-    RemoveUnit(oldPosition, occupant);
-    AddUnit(occupant, newPosition);
+    RemoveFromCell(oldPosition, occupant);
+    AddToCell(occupant, newPosition);
   }
 
   public bool IsValidGridPosition(GridPosition gridPosition) {
@@ -77,8 +78,8 @@ public class LevelGrid : MonoBehaviour {
 
   // Diagonal resulting in a total Manhattan distance of 2.
   private int CellDistance(GridPosition cell1, GridPosition cell2) {
-    int deltaX = Mathf.Abs(cell1.x - cell2.x);
-    int deltaY = Mathf.Abs(cell1.z - cell2.z);
+    var deltaX = Mathf.Abs(cell1.x - cell2.x);
+    var deltaY = Mathf.Abs(cell1.z - cell2.z);
 
     return deltaX + deltaY;
   }
@@ -115,9 +116,7 @@ public class LevelGrid : MonoBehaviour {
       if (!IsValidGridPosition(pickedPosition)) continue;
 
       var enemy = GetOccupant(pickedPosition)?.GetComponent<EnemyController>();
-      if (enemy) {
-        enemiesList.Add(enemy);
-      }
+      if (enemy) enemiesList.Add(enemy);
     }
 
     return enemiesList;

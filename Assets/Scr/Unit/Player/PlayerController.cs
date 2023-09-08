@@ -2,13 +2,13 @@ using System;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour {
-  [SerializeField] private int maxMoveDistance = 1;
-
   private ActionComponent _actionComponent;
+  private StatsComponent _stats;
   private bool isPlayerTurn;
 
   private void Awake() {
     _actionComponent = GetComponent<ActionComponent>();
+    _stats = GetComponent<StatsComponent>();
     GameManager.OnGameStateChanged += OnGameStateChanged;
   }
 
@@ -24,18 +24,14 @@ public class PlayerController : MonoBehaviour {
     var position = LevelGrid.Instance.GetPosition(MouseWorld.GetPosition());
     var currentPosition = LevelGrid.Instance.GetPosition(transform.position);
 
-    if (!LevelGrid.Instance.IsValidPosition(position, currentPosition, GetMoveDistance())) {
-      return;
-    }
+    if (!LevelGrid.Instance.IsValidPosition(position, currentPosition, _stats.GetMoveDistance())) return;
 
     var cellOccupant = LevelGrid.Instance.GetOccupant(position);
 
-    if (cellOccupant is not null && cellOccupant.GetComponent<EnemyController>()) {
+    if (cellOccupant is not null && cellOccupant.GetComponent<EnemyController>())
       await _actionComponent.Attack(position);
-    }
-    else {
+    else
       await _actionComponent.Move(position);
-    }
 
     OnPlayerTurnEnded?.Invoke();
   }
@@ -50,12 +46,12 @@ public class PlayerController : MonoBehaviour {
     isPlayerTurn = gameState == GameState.PlayerTurn;
   }
 
-  public int GetMoveDistance() {
-    return maxMoveDistance;
-  }
-
   public GridPosition GetPosition() {
     return LevelGrid.Instance.GetPosition(transform.position);
+  }
+
+  public int GetMoveDistance() {
+    return _stats.GetMoveDistance();
   }
 }
 

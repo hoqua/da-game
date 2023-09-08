@@ -1,22 +1,27 @@
-using UnityEngine;
-
-public class Health : MonoBehaviour {
-  public int _maxHealth;
-  public int _healthPoints;
+public class Health {
+  private int _healthPoints;
+  private int _maxHealth;
 
   public Health(int maxHealth) {
     _healthPoints = maxHealth;
     _maxHealth = maxHealth;
-  } 
+  }
 
-  public void SetMaxHealth(int maxHealth)
-  {
+  public void SetMaxHealth(int maxHealth) {
     _maxHealth = maxHealth;
+  }
+
+  public int GetCurrentHealth() {
+    return _healthPoints;
+  }
+
+  public int GetMaxHealth() {
+    return _maxHealth;
   }
 
   public void TakeDamage(int damageAmount) {
     _healthPoints -= damageAmount;
-    if(IsDead()) _healthPoints = 0;
+    if (IsDead()) _healthPoints = 0;
   }
 
   public void Heal(int healAmount) {
@@ -25,7 +30,6 @@ public class Health : MonoBehaviour {
   }
 
   public bool IsDead() {
-    if (_healthPoints <= 0)  return true; 
-    return false;
+    return _healthPoints <= 0;
   }
 }

@@ -4,31 +4,25 @@ using UnityEngine.TestTools;
 
 public class HealthSystemTest {
   // A Test behaves as an ordinary method
-  /*[Test]
-  public void HealthSystemTestSimplePasses() {
-    var health = new Health(100);
-    Assert.AreEqual(health._maxHealth, 100);
-  }*/
+  
   [Test]
   public void HealthConstructor_InitializesHealthPointsAndMaxHealth()
   {
     // Arrange
-    int startingHealth = 100;
-    int maxHealth = 150;
+    int maxHealth = 100;
 
     // Act
-    Health health = new Health(startingHealth, maxHealth);
+    Health health = new Health(maxHealth);
 
     // Assert
-    Assert.AreEqual(startingHealth, health._healthPoints);
-    Assert.AreEqual(maxHealth, health._maxHealth);
+    Assert.AreEqual(maxHealth, health._healthPoints);
   }
 
   [Test]
   public void SetMaxHealth_SetsMaxHealthCorrectly()
   {
     // Arrange
-    Health health = new Health(100, 150);
+    Health health = new Health(150);
     int newMaxHealth = 200;
 
     // Act
@@ -36,14 +30,14 @@ public class HealthSystemTest {
 
     // Assert
     Assert.AreEqual(newMaxHealth, health._maxHealth);
-    Assert.AreEqual(100, health._healthPoints);
+    Assert.AreEqual(150, health._healthPoints);
   }
 
   [Test]
   public void TakeDamage_ReducesHealthPoints()
   {
     // Arrange
-    Health health = new Health(100, 150);
+    Health health = new Health(100);
     int damageAmount = 30;
 
     // Act
@@ -57,7 +51,7 @@ public class HealthSystemTest {
   public void TakeLethalDamage_ReducesHealthPoints()
   {
     // Arrange
-    Health health = new Health(100, 150);
+    Health health = new Health(100);
     int damageAmount = 100000;
 
     // Act
@@ -71,35 +65,37 @@ public class HealthSystemTest {
   public void Heal_IncreasesHealthPoints()
   {
     // Arrange
-    Health health = new Health(70, 150);
+    Health health = new Health(70);
     int healAmount = 20;
 
     // Act
+    health.TakeDamage(50);
     health.Heal(healAmount);
 
     // Assert
-    Assert.AreEqual(90, health._healthPoints);
+    Assert.AreEqual(40, health._healthPoints);
   }
   
   [Test]
   public void FullHeal_IncreasesHealthPoints()
   {
     // Arrange
-    Health health = new Health(70, 150);
+    Health health = new Health(70);
     int healAmount = 100000;
 
     // Act
+    health.TakeDamage(50);
     health.Heal(healAmount);
 
     // Assert
-    Assert.AreEqual(150, health._healthPoints);
+    Assert.AreEqual(70, health._healthPoints);
   }
 
   [Test]
   public void IsDead_ReturnsTrueWhenHealthZero()
   {
     // Arrange
-    Health health = new Health(0, 150);
+    Health health = new Health(0);
 
     // Act & Assert
     Assert.IsTrue(health.IsDead());
@@ -109,7 +105,7 @@ public class HealthSystemTest {
   public void IsDead_ReturnsFalseWhenHealthPositive()
   {
     // Arrange
-    Health health = new Health(50, 150);
+    Health health = new Health(50);
 
     // Act & Assert
     Assert.IsFalse(health.IsDead());

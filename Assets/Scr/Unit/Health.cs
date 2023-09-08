@@ -3,10 +3,9 @@ using UnityEngine;
 public class Health : MonoBehaviour {
   public int _maxHealth;
   public int _healthPoints;
-  private bool _isDead;
 
-  public Health(int startingHealth, int maxHealth) {
-    _healthPoints = startingHealth;
+  public Health(int maxHealth) {
+    _healthPoints = maxHealth;
     _maxHealth = maxHealth;
   } 
 

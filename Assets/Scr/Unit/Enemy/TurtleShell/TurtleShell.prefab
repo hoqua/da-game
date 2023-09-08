@@ -178,7 +178,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce0e21d84dc14873b7a4bac99e63a19f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  statsObject: {fileID: 0}
+  statsObject: {fileID: 11400000, guid: c4f6ecdb55a4d4c1e9342463e0bd27c6, type: 2}
   attackPower: 0
   defense: 0
   level:

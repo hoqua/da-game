@@ -7,7 +7,7 @@ public class WeaponController : MonoBehaviour {
   private float attackRange = 1f;
 
   private void OnTriggerEnter(Collider other) {
-    if (!other.gameObject.CompareTag("Attackable")) return;
+    if (!other.gameObject.CompareTag(EnemyController.tag)) return;
     var targetAttackable = other.GetComponent<AttackableComponent>();
     if (targetAttackable) targetAttackable.TakeDamage(damage);
   }

@@ -191,6 +191,14 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 7537359568636209497}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 222c48c99d79840568d07f83b1bdc339,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4171370254252006337}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 222c48c99d79840568d07f83b1bdc339,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4287432499112861955}
   m_SourcePrefab: {fileID: 100100000, guid: 222c48c99d79840568d07f83b1bdc339, type: 3}
 --- !u!4 &185126035588802826 stripped
 Transform:
@@ -271,24 +279,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   statsObject: {fileID: 11400000, guid: f0714a4a71bcc40808fdde17eca8b7d6, type: 2}
-  experience: 0
-  level: 0
-  experienceCap: 100
-  levelRanges:
-  - start: 1
-    end: 10
-    experienceCapIncrease: 100
-  - start: 11
-    end: 20
-    experienceCapIncrease: 200
-  - start: 21
-    end: 30
-    experienceCapIncrease: 300
-  - start: 31
-    end: 40
-    experienceCapIncrease: 400
   attackPower: 0
   defense: 0
+  level:
+    level: 0
+    experience: 0
+    experienceCap: 0
+    levelRanges: []
 --- !u!114 &2444012515332927954
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -315,6 +312,45 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damagePopupPrefab: {fileID: 5734843249236278816, guid: 2c04decdc02148f4ba4ac43da41e518a,
     type: 3}
+--- !u!114 &4171370254252006337
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2810409540141751613}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f2a440bd7fc14d46ba7f021115f7f5af, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!54 &4287432499112861955
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2810409540141751613}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1001 &4875282484671279785
 PrefabInstance:
   m_ObjectHideFlags: 0

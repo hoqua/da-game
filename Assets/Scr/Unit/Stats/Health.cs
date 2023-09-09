@@ -1,6 +1,12 @@
+using System;
+using System.Collections.Generic;
+using UnityEngine;
+
+[Serializable]
 public class Health {
-  private int _healthPoints;
-  private int _maxHealth;
+  
+  [SerializeField] private int _healthPoints;
+  [SerializeField] private int _maxHealth;
 
   public Health(int maxHealth) {
     _healthPoints = maxHealth;

@@ -17,6 +17,7 @@ public class StatsComponent : MonoBehaviour {
   [SerializeField]
   private Level level;
 
+  [SerializeField]
   private Health health;
 
   private int moveDistance;
@@ -57,5 +58,10 @@ public class StatsComponent : MonoBehaviour {
 
   public int GetMoveDistance() {
     return moveDistance;
+  }
+
+  public void GainHeal(int healAmount)
+  {
+    health.Heal(healAmount);
   }
 }

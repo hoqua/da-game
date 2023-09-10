@@ -55,6 +55,11 @@ public class PlayerController : MonoBehaviour {
   public void GainExperience(int experience) {
     _stats.GainExperience(experience);
   }
+
+  public void GainHeal(int healAmount)
+  {
+    _stats.GainHeal(healAmount);
+  }
 }
 
 internal enum PlayerState {

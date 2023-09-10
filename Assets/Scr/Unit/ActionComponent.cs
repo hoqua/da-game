@@ -9,7 +9,7 @@ public class ActionComponent : MonoBehaviour {
 
   private readonly float stoppingDistance = 0.1f;
   private StatsComponent _stats;
-
+  private ActionState actionState = ActionState.WaitingInput;
   private Animator unitAnimator;
 
   private void Awake() {
@@ -18,6 +18,7 @@ public class ActionComponent : MonoBehaviour {
   }
 
   public async Task Attack(GridPosition gridClickPosition) {
+    actionState = ActionState.Attacking;
     // Move to target
     var initialPosition = transform.position;
     var targetPosition = LevelGrid.Instance.GetWorldPosition(gridClickPosition);
@@ -41,7 +42,6 @@ public class ActionComponent : MonoBehaviour {
 
     unitAnimator.SetTrigger(attack);
 
-    // I
     while (!unitAnimator.GetCurrentAnimatorStateInfo(0).IsTag("Attack")) await Task.Yield();
 
     var animationInMs = unitAnimator.GetCurrentAnimatorClipInfo(0)[0].clip.length * 1000;
@@ -55,10 +55,11 @@ public class ActionComponent : MonoBehaviour {
     }
 
     unitAnimator.SetBool(isMoving, false);
+    actionState = ActionState.WaitingInput;
   }
 
-
   public async Task Move(GridPosition gridClickPosition) {
+    actionState = ActionState.Moving;
     var moveTarget = LevelGrid.Instance.GetWorldPosition(gridClickPosition);
     var oldGridPosition = LevelGrid.Instance.GetPosition(transform.position);
     unitAnimator.SetBool(isMoving, true);
@@ -72,6 +73,7 @@ public class ActionComponent : MonoBehaviour {
     unitAnimator.SetBool(isMoving, false);
     var newGridPosition = LevelGrid.Instance.GetPosition(transform.position);
     LevelGrid.Instance.MoveUnit(oldGridPosition, newGridPosition);
+    actionState = ActionState.WaitingInput;
   }
 
   private void PerformMove(Vector3 targetPosition) {
@@ -80,4 +82,15 @@ public class ActionComponent : MonoBehaviour {
     transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, _stats.GetRotateSpeed() * Time.deltaTime);
     transform.position += moveDir * (_stats.GetMoveSpeed() * Time.deltaTime);
   }
+
+  public ActionState GetState() {
+    return actionState;
+  }
+}
+
+
+public enum ActionState {
+  WaitingInput,
+  Moving,
+  Attacking
 }

@@ -266,6 +266,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 55383ec58c4f4b9db408e465c919e419, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  weapon: {fileID: 5066538054716580448}
 --- !u!114 &6547170156819438141
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -286,6 +287,9 @@ MonoBehaviour:
     experience: 0
     experienceCap: 0
     levelRanges: []
+  health:
+    _healthPoints: 0
+    _maxHealth: 0
 --- !u!114 &2444012515332927954
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -419,6 +423,18 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3617e4093ca8d5145986d37c89cfd692, type: 3}
+--- !u!114 &5066538054716580448 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 425464900033351881, guid: 3617e4093ca8d5145986d37c89cfd692,
+    type: 3}
+  m_PrefabInstance: {fileID: 4875282484671279785}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 675407b3490e949fba435377d0000e08, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &9066471191861191788 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4502165957148481221, guid: 3617e4093ca8d5145986d37c89cfd692,

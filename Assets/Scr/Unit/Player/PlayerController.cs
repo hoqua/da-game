@@ -3,6 +3,11 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour {
   public static readonly string tag = "Player";
+
+  [Required]
+  [SerializeField]
+  private WeaponController weapon;
+
   private ActionComponent _actionComponent;
   private StatsComponent _stats;
   private bool isPlayerTurn;
@@ -56,14 +61,15 @@ public class PlayerController : MonoBehaviour {
     _stats.GainExperience(experience);
   }
 
-  public void GainHeal(int healAmount)
-  {
-    _stats.GainHeal(healAmount);
+  public void Heal(int healAmount) {
+    _stats.Heal(healAmount);
   }
-}
 
-internal enum PlayerState {
-  WaitingInput,
-  Moving,
-  Attacking
+  public void StartDealDamage() {
+    weapon.StartAttack();
+  }
+
+  public void StopDealDamage() {
+    weapon.EndAttack();
+  }
 }

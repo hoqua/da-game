@@ -29,11 +29,19 @@ public class AttackableComponent : MonoBehaviour {
   }
 
   public void TakeDamage(int damage) {
+    Debug.Log("TOOK DAMAGE");
     _renderer.material.color = new Color(1, 0, 0, .1f);
     // _animator.SetTrigger(Damage);
     _stats.TakeDamage(damage);
     ShowDamageText(damage);
     StartCoroutine(ChangeBackToOriginalMaterial());
+    if (_stats.IsDead()) {
+      var position = LevelGrid.Instance.GetPosition(transform.position);
+      LevelGrid.Instance.RemoveFromCell(position);
+      Destroy(gameObject);
+    }
+
+    ;
   }
 
   private void ShowDamageText(int damage) {

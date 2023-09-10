@@ -60,8 +60,11 @@ public class StatsComponent : MonoBehaviour {
     return moveDistance;
   }
 
-  public void GainHeal(int healAmount)
-  {
+  public void Heal(int healAmount) {
     health.Heal(healAmount);
+  }
+
+  public bool IsDead() {
+    return health.IsDead();
   }
 }

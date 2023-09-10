@@ -26,7 +26,7 @@ public class LevelGrid : MonoBehaviour {
   }
 
 
-  public void RemoveFromCell(GridPosition position, MonoBehaviour occupant) {
+  public void RemoveFromCell(GridPosition position) {
     _gridSystem.GetGridObject(position).RemoveOccupant();
   }
 
@@ -40,7 +40,7 @@ public class LevelGrid : MonoBehaviour {
 
   public void MoveUnit(GridPosition oldPosition, GridPosition newPosition) {
     var occupant = _gridSystem.GetGridObject(oldPosition).GetOccupant();
-    RemoveFromCell(oldPosition, occupant);
+    RemoveFromCell(oldPosition);
     AddToCell(occupant, newPosition);
   }
 
@@ -116,7 +116,7 @@ public class LevelGrid : MonoBehaviour {
       if (!IsValidGridPosition(pickedPosition)) continue;
 
       var enemy = GetOccupant(pickedPosition)?.GetComponent<EnemyController>();
-      if (enemy) enemiesList.Add(enemy);
+      if (enemy is not null) enemiesList.Add(enemy);
     }
 
     return enemiesList;
